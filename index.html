@@ -9,7 +9,7 @@
       name="description"
       content="Post-Mythos Defense with Jason Clinton, Deputy CISO, Anthropic. A closed-door gathering of cybersecurity leaders in financial services, hosted by Zafran."
     />
-    <link rel="canonical" href="https://example.com/" />
+    <link rel="canonical" href="https://securingthefrontier.com/" />
     <link rel="icon" href="assets/favicon.ico" sizes="32x32" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="assets/favicon-96.png" />
@@ -22,8 +22,11 @@
       property="og:description"
       content="Post-Mythos Defense with Jason Clinton, Deputy CISO, Anthropic. A closed-door gathering of cybersecurity leaders in financial services, hosted by Zafran."
     />
-    <meta property="og:url" content="https://example.com/" />
-    <meta property="og:image" content="https://example.com/og.jpg" />
+    <meta property="og:url" content="https://securingthefrontier.com/" />
+    <meta property="og:image" content="https://securingthefrontier.com/assets/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Securing the Frontier — Post-Mythos Defense" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Securing the Frontier — Post-Mythos Defense" />
@@ -31,7 +34,7 @@
       name="twitter:description"
       content="Post-Mythos Defense with Jason Clinton, Deputy CISO, Anthropic. A closed-door gathering of cybersecurity leaders in financial services, hosted by Zafran."
     />
-    <meta name="twitter:image" content="https://example.com/og.jpg" />
+    <meta name="twitter:image" content="https://securingthefrontier.com/assets/og.png" />
     <style>
       @font-face {
         font-family: Martian Mono Variable;
@@ -3397,6 +3400,196 @@
           transition: none;
         }
       }
+      /* Sits above the hero's fixed canvas, so it needs its own background. */
+      .apply {
+        font-family: var(--font-mono);
+        background: var(--color-canvas);
+        border-top: 1px solid var(--color-stroke);
+        padding: clamp(4rem, 10vh, 7rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + clamp(4rem, 10vh, 7rem));
+        position: relative;
+        scroll-margin-top: 0;
+      }
+      .apply:focus {
+        outline: none;
+      }
+      .apply__inner {
+        max-width: 36rem;
+        margin: 0 auto;
+      }
+      .apply__title {
+        color: var(--color-fg);
+        letter-spacing: -0.02em;
+        text-align: center;
+        margin: 0;
+        font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+        font-weight: 300;
+        font-stretch: 82%;
+        line-height: 1.1;
+      }
+      .apply__lede {
+        color: var(--color-fg-muted);
+        text-align: center;
+        margin: 1rem 0 0;
+        font-size: 0.9375rem;
+        font-weight: 300;
+        line-height: 1.55;
+      }
+      #apply-form {
+        min-height: 20rem;
+        margin-top: 3rem;
+      }
+      /* HubSpot v2 embed markup; id scope beats the .hs-custom-style rules it injects. */
+      #apply-form fieldset {
+        max-width: none !important;
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+      #apply-form fieldset.form-columns-2 {
+        gap: 0 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      @media (width<=37.5rem) {
+        #apply-form fieldset.form-columns-2 {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      #apply-form .hs-form-field {
+        width: auto !important;
+        float: none !important;
+        margin-bottom: 1.5rem;
+      }
+      #apply-form .hs-form-field .input {
+        margin: 0 !important;
+      }
+      #apply-form label:not(.hs-form-booleancheckbox-display, .hs-form-checkbox-display, .hs-form-radio-display) {
+        color: var(--color-fg-muted);
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5rem;
+        font-size: 0.8125rem;
+        display: block;
+      }
+      #apply-form .hs-form-required {
+        color: var(--color-intent-hover);
+        margin-left: 0.25em;
+      }
+      #apply-form .hs-field-desc {
+        color: var(--color-fg-subtle);
+        margin-bottom: 0.5rem;
+        font-size: 0.75rem;
+      }
+      #apply-form .hs-input:not([type="checkbox"], [type="radio"]) {
+        width: 100% !important;
+        color: var(--color-fg);
+        font: inherit;
+        background: var(--color-panel);
+        border: 1px solid var(--color-stroke-strong);
+        border-radius: var(--radius-xs);
+        transition: border-color var(--timing-default-quarter);
+        padding: 0.875rem 1rem;
+        font-size: 0.9375rem;
+      }
+      #apply-form select.hs-input {
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, var(--color-fg-subtle) 50%),
+          linear-gradient(135deg, var(--color-fg-subtle) 50%, transparent 50%);
+        background-position:
+          calc(100% - 1.25rem) 50%,
+          calc(100% - 0.9375rem) 50%;
+        background-size: 0.3125rem 0.3125rem;
+        background-repeat: no-repeat;
+        padding-right: 2.5rem;
+      }
+      #apply-form textarea.hs-input {
+        min-height: 7rem;
+        resize: vertical;
+      }
+      #apply-form .hs-input:hover {
+        border-color: var(--color-intent);
+      }
+      #apply-form .hs-input:focus-visible {
+        border-color: var(--color-intent-hover);
+        outline: 2px solid var(--color-focus);
+        outline-offset: 2px;
+      }
+      #apply-form .hs-input.invalid.error {
+        border-color: var(--color-error);
+      }
+      #apply-form .inputs-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      #apply-form .inputs-list label {
+        color: var(--color-fg-muted);
+        align-items: flex-start;
+        gap: 0.625rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        display: flex;
+      }
+      #apply-form input[type="checkbox"],
+      #apply-form input[type="radio"] {
+        accent-color: var(--color-intent);
+        flex: none;
+        margin-top: 0.2em;
+      }
+      #apply-form .hs-error-msgs {
+        margin: 0.5rem 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      #apply-form .hs-error-msg,
+      #apply-form .hs-main-font-element {
+        color: #f87171;
+        font-size: 0.75rem;
+      }
+      #apply-form .hs-richtext,
+      #apply-form .legal-consent-container {
+        color: var(--color-fg-subtle);
+        font-size: 0.75rem;
+        line-height: 1.6;
+      }
+      #apply-form .hs-richtext a,
+      #apply-form .legal-consent-container a {
+        color: var(--color-fg-muted);
+      }
+      #apply-form .hs-submit {
+        text-align: center;
+        margin-top: 1rem;
+      }
+      #apply-form .hs-button {
+        letter-spacing: 0.05em;
+        color: var(--color-fg);
+        font: inherit;
+        border: 1px solid var(--color-intent);
+        border-radius: var(--radius-xs);
+        transition:
+          background-color var(--timing-default-quarter),
+          border-color var(--timing-default-quarter),
+          box-shadow var(--timing-default-half);
+        background: 0 0;
+        padding: 1.125rem 3rem;
+        font-size: 1rem;
+        line-height: 1;
+      }
+      #apply-form .hs-button:hover {
+        background-color: color-mix(in srgb, var(--color-intent) 15%, transparent);
+        border-color: var(--color-intent-hover);
+        box-shadow: 0 0 1.75rem color-mix(in srgb, var(--color-intent) 35%, transparent);
+      }
+      #apply-form .hs-button:focus-visible {
+        outline: 2px solid var(--color-focus);
+        outline-offset: 0.3125rem;
+      }
+      #apply-form .submitted-message {
+        color: var(--color-fg);
+        text-align: center;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
     </style>
   </head>
   <body>
@@ -3615,7 +3808,20 @@
         </div>
         <button class="hero__replay" data-hero-replay type="button" data-astro-cid-pcidpq3o>Replay intro</button>
       </section>
+      <section id="apply" class="apply" aria-labelledby="apply-title" tabindex="-1">
+        <div class="apply__inner">
+          <h2 id="apply-title" class="apply__title">Request a Seat</h2>
+          <p class="apply__lede">Seating is limited. We'll confirm your place by email.</p>
+          <div id="apply-form" class="apply__form"></div>
+        </div>
+      </section>
       <script src="assets/hero.js" defer></script>
+      <script
+        charset="utf-8"
+        src="https://js.hsforms.net/forms/embed/v2.js"
+        defer
+        onload="hbspt.forms.create({ portalId: '44641761', formId: '0addb25d-0afd-4e00-947a-02084e3d85f6', region: 'na1', sfdcCampaignId: '701Pj00001IyIQbIAN', target: '#apply-form', css: '' })"
+      ></script>
     </main>
   </body>
 </html>
