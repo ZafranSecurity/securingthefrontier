@@ -3434,6 +3434,10 @@
         font-weight: 300;
         line-height: 1.55;
       }
+      /* HubSpot's thank-you message repeats the lede. */
+      .apply__inner:has(.submitted-message) .apply__lede {
+        display: none;
+      }
       #apply-form {
         min-height: 20rem;
         margin-top: 3rem;
