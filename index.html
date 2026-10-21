@@ -3400,21 +3400,94 @@
           transition: none;
         }
       }
-      /* Sits above the hero's fixed canvas, so it needs its own background. */
       .apply {
         font-family: var(--font-mono);
+        color: var(--color-fg);
         background: var(--color-canvas);
-        border-top: 1px solid var(--color-stroke);
-        padding: clamp(4rem, 10vh, 7rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + clamp(4rem, 10vh, 7rem));
-        position: relative;
-        scroll-margin-top: 0;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius-sm);
+        width: min(40rem, calc(100% - 2rem));
+        max-width: none;
+        max-height: calc(100dvh - 2rem);
+        margin: auto;
+        padding: 0;
+        overscroll-behavior: contain;
+        opacity: 0;
+        transform: translateY(1rem);
+        transition:
+          opacity 0.3s var(--cubic-default),
+          transform 0.3s var(--cubic-default),
+          overlay 0.3s allow-discrete,
+          display 0.3s allow-discrete;
       }
-      .apply:focus {
-        outline: none;
+      .apply[open] {
+        opacity: 1;
+        transform: none;
+      }
+      @starting-style {
+        .apply[open] {
+          opacity: 0;
+          transform: translateY(1rem);
+        }
+      }
+      .apply::backdrop {
+        background: rgb(0 0 0 / 0);
+        backdrop-filter: blur(0);
+        transition:
+          background 0.3s,
+          backdrop-filter 0.3s,
+          overlay 0.3s allow-discrete,
+          display 0.3s allow-discrete;
+      }
+      .apply[open]::backdrop {
+        background: rgb(0 0 0 / 0.6);
+        backdrop-filter: blur(4px);
+      }
+      @starting-style {
+        .apply[open]::backdrop {
+          background: rgb(0 0 0 / 0);
+          backdrop-filter: blur(0);
+        }
+      }
+      html:has(.apply[open]) {
+        overflow: hidden;
       }
       .apply__inner {
-        max-width: 36rem;
-        margin: 0 auto;
+        padding: 3.5rem 1.5rem calc(env(safe-area-inset-bottom, 0px) + 2.5rem);
+      }
+      @media (width>=37.5rem) {
+        .apply__inner {
+          padding: 4rem 3rem 3rem;
+        }
+      }
+      /* Sticky so it stays reachable while a long form scrolls on mobile. */
+      .apply__close {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0.75rem 0.75rem -3.25rem auto;
+        color: var(--color-fg-muted);
+        background: var(--color-canvas);
+        border: 0;
+        border-radius: var(--radius-xs);
+        transition: color var(--timing-default-quarter);
+      }
+      .apply__close:hover {
+        color: var(--color-fg);
+      }
+      .apply__close:focus-visible {
+        outline: 2px solid var(--color-focus);
+        outline-offset: 2px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .apply,
+        .apply::backdrop {
+          transition: none;
+        }
       }
       .apply__title {
         color: var(--color-fg);
@@ -3608,7 +3681,7 @@
         <canvas class="hero__sky" data-hero-canvas aria-hidden="true" data-astro-cid-pcidpq3o></canvas>
         <script>
           (function (el) {
-            if (matchMedia("(prefers-reduced-motion: no-preference) and (min-width: 769px)").matches) {
+            if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
               el.dataset.intro = "armed";
             }
           })(document.currentScript.parentElement);
@@ -3812,13 +3885,49 @@
         </div>
         <button class="hero__replay" data-hero-replay type="button" data-astro-cid-pcidpq3o>Replay intro</button>
       </section>
-      <section id="apply" class="apply" aria-labelledby="apply-title" tabindex="-1">
+      <dialog id="apply" class="apply" aria-labelledby="apply-title" closedby="any">
+        <!-- Autofocus keeps iOS from focusing the first form field and raising the keyboard. -->
+        <button class="apply__close" type="button" aria-label="Close" data-apply-close autofocus>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13" />
+          </svg>
+        </button>
         <div class="apply__inner">
           <h2 id="apply-title" class="apply__title">Request a Seat</h2>
           <p class="apply__lede">Seating is limited. We'll confirm your place by email.</p>
           <div id="apply-form" class="apply__form"></div>
         </div>
-      </section>
+      </dialog>
+      <script>
+        // CTA opens the form as a modal; #apply deep links open it on load.
+        (function () {
+          var dialog = document.getElementById("apply");
+          var cta = document.querySelector("[data-hero-cta]");
+          function open() {
+            if (!dialog.open) dialog.showModal();
+          }
+          cta.addEventListener("click", function (e) {
+            e.preventDefault();
+            open();
+          });
+          dialog.querySelector("[data-apply-close]").addEventListener("click", function () {
+            dialog.close();
+          });
+          // Backdrop click fallback for browsers without closedby (Safari).
+          dialog.addEventListener("click", function (e) {
+            if (e.target === dialog) {
+              var r = dialog.getBoundingClientRect();
+              var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+              if (!inside) dialog.close();
+            }
+          });
+          dialog.addEventListener("close", function () {
+            if (location.hash === "#apply") history.replaceState(null, "", location.pathname + location.search);
+            cta.focus();
+          });
+          if (location.hash === "#apply") open();
+        })();
+      </script>
       <script src="assets/hero.js" defer></script>
       <script
         charset="utf-8"
